@@ -1,2 +1,2 @@
 # CS5800-Final-Project---Running-Maps
-# Created by James Florez, Ashii Shrimal, and Subhankar Shah
+# Created by James Florez, Aashi Shrimal, and Subhankar Shah
