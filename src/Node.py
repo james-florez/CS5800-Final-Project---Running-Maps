@@ -3,7 +3,7 @@ class Node:
         self.index = index
         self.x = x
         self.y = y
-        self.numPOI = num_points_of_interest
+        self.numPointsOfInterest = num_points_of_interest
         self.descriptions = descriptions
 
     def get_index(self):
@@ -16,7 +16,7 @@ class Node:
         return self.y
 
     def get_num_points_of_interest(self):
-        return self.numPOI
+        return self.numPointsOfInterest
 
     def get_descriptions(self):
         return self.descriptions

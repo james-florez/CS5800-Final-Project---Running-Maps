@@ -12,8 +12,8 @@ class RoutePlanner:
     def plan_bfs(self, start_index, distance):
         pass
 
-    def merge_sort(self, graphs):
+    def merge_sort(self, routes):
         pass
 
-    def counting_sort(self, graphs):
+    def counting_sort(self, routes):
         pass
