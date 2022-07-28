@@ -6,7 +6,11 @@ class RoutePlanner:
         # Should the graph be an argument in the constructor?
         self.myGraph = graph
 
-    def plan_dfs(self, start_index, distance):
+    def plan_dfs(self, start_index, distance) -> [Graph]:
+        # Total number of vertices
+        pass
+
+    def dfs_util(self, node_index, visited, distance):
         pass
 
     def plan_bfs(self, start_index, distance):
