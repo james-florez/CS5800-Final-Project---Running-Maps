@@ -1,6 +1,7 @@
 from unittest import TestCase
 from src.Node import Node
 
+
 class TestNode(TestCase):
     def setUp(self):
         self.node = Node(0, 10, 20, 2, ["Boston Public Garden", "Statue of George Washington"])
