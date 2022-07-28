@@ -1,10 +1,9 @@
 class Node:
-    def __init__(self, index, x, y, num_points_of_interest, descriptions):
+    def __init__(self, index, x, y, points_of_interest):
         self.index = index
         self.x = x
         self.y = y
-        self.numPointsOfInterest = num_points_of_interest
-        self.descriptions = descriptions
+        self.points_of_interest = points_of_interest
 
     def get_index(self):
         return self.index
@@ -16,7 +15,7 @@ class Node:
         return self.y
 
     def get_num_points_of_interest(self):
-        return self.numPointsOfInterest
+        return len(self.points_of_interest)
 
-    def get_descriptions(self):
-        return self.descriptions
+    def get_points_of_interest(self):
+        return self.points_of_interest
