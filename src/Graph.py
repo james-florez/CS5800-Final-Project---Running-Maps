@@ -27,9 +27,13 @@ class Graph:
         if not len(self.adjacencyList) > start_index or not len(self.adjacencyList) > end_index:
             return False
 
-        list_node = self.adjacencyList[start_index]
-        edge_tuple = (end_index, distance)
-        list_node.append(edge_tuple)
+        list_node1 = self.adjacencyList[start_index]
+        edge_tuple1 = (end_index, distance)
+        list_node1.append(edge_tuple1)
+
+        list_node2 = self.adjacencyList[end_index]
+        edge_tuple2 = (start_index, distance)
+        list_node2.append(edge_tuple2)
 
         return True
 
