@@ -14,7 +14,8 @@ class Graph:
         index = node.get_index()
         # check if node is already in list and append if not
 
-        if len(self.adjacency_list) >= index:
+        # Validate parameters
+        if index < len(self.adjacency_list):
             return False
 
         list_node = []
@@ -29,7 +30,8 @@ class Graph:
     def add_edge(self, start_index, end_index, distance) -> bool:
 
         # TODO might need to modify this condition
-        if not len(self.adjacency_list) > start_index or not len(self.adjacency_list) > end_index:
+        # Validate parameters
+        if start_index >= len(self.adjacency_list) or end_index >= len(self.adjacency_list):
             return False
 
         list_node1 = self.adjacency_list[start_index]
