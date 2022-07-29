@@ -11,7 +11,7 @@ class RoutePlanner:
     def plan_dfs(self, start_index, distance) -> [Graph]:
         # Total number of vertices
 
-        n = len(self.myGraph.adjacencyList)
+        n = len(self.myGraph.adjacency_list)
         # Initialise the visited boolean
         visited = [False] * n
 
