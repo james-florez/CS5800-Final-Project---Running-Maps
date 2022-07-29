@@ -10,34 +10,31 @@ class Graph:
         self.nodes = []
 
     def add_node(self, node) -> bool:
-        self.nodes.append(node)
-        index = node.get_index()
-        # check if node is already in list and append if not
-
         # Validate parameters
-        if index < len(self.adjacency_list):
-            return False
+        if node.get_index() < len(self.adjacency_list):
+            return False  # Node already exists
 
-        list_node = []
-        self.adjacency_list.append(list_node)
+        # Add node
+        self.nodes.append(node)
+        self.adjacency_list.append([])
 
-        # Add points of interest to the hash set
+        # Add points of interest
         for point_of_interest in node.get_points_of_interest():
             self.points_of_interest.add(point_of_interest)
 
         return True
 
     def add_edge(self, start_index, end_index, distance) -> bool:
-
-        # TODO might need to modify this condition
         # Validate parameters
         if start_index >= len(self.adjacency_list) or end_index >= len(self.adjacency_list):
-            return False
+            return False  # Node does not exist
 
+        # Add (end_index, distance) to the start node adjacency list
         list_node1 = self.adjacency_list[start_index]
         edge_tuple1 = (end_index, distance)
         list_node1.append(edge_tuple1)
 
+        # Add (start_index, distance) to the end node adjacency list
         list_node2 = self.adjacency_list[end_index]
         edge_tuple2 = (start_index, distance)
         list_node2.append(edge_tuple2)
