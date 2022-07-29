@@ -6,8 +6,10 @@ class Graph:
     def __init__(self):
         self.adjacencyList = []
         self.numPointsOfInterest = 0
+        self.nodes = []
 
     def add_node(self, node) -> bool:
+        self.nodes.append(node)
         index = node.get_index()
         # check if node is already in list and append if not
 
@@ -33,3 +35,6 @@ class Graph:
 
     def get_num_points_of_interest(self):
         return self.numPointsOfInterest
+
+    def get_node(self, node_index) -> Node:
+        return self.nodes[node_index]
