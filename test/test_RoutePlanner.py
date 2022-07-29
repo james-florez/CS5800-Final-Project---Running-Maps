@@ -22,12 +22,14 @@ class TestRoutePlanner(TestCase):
         self.node12 = Node(12, 0, 0, ["x12", "y12", "z12"])
         self.nodes = [self.node0, self.node1, self.node2, self.node3, self.node4, self.node5, self.node6, self.node7,
                       self.node8, self.node9, self.node10, self.node11, self.node12]
+
         # Create Graph
         self.simpleGraph = Graph()
+
         # Load Nodes
-        # TODO node 12 is not being recorded
         for node in self.nodes:
             self.simpleGraph.add_node(node)
+
         # Load Edges
         self.simpleGraph.add_edge(0, 1, 225)
         self.simpleGraph.add_edge(1, 5, 1326)
@@ -50,17 +52,18 @@ class TestRoutePlanner(TestCase):
         self.simpleGraph.add_edge(6, 8, 1783)
         self.simpleGraph.add_edge(8, 12, 1987)
 
+        # Create RoutePlanner
         self.planner = RoutePlanner(self.simpleGraph)
 
 
     def test_plan_dfs(self):
-        self.fail()
+        self.assertEqual("", self.planner.plan_dfs(0, 5))
 
     def test_plan_bfs(self):
-        self.fail()
+        self.assertEqual("", self.planner.plan_bfs(0, 5))
 
     def test_merge_sort(self):
-        self.fail()
+        self.assertEqual("", self.planner.merge_sort(self.planner.plan_dfs(0, 5)))
 
     def test_counting_sort(self):
-        self.fail()
+        self.assertEqual("", self.planner.counting_sort(self.planner.plan_dfs(0, 5)))
