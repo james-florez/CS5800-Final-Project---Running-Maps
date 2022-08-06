@@ -47,5 +47,15 @@ class Graph:
     def get_points_of_interest(self):
         return self.points_of_interest
 
-    def get_node(self, node_index) -> Node:
-        return self.nodes[node_index]
+    def get_node(self, node_index):
+        if node_index >= len(self.nodes):
+            return None
+        else:
+            return self.nodes[node_index]
+
+    def get_distance(self, start_node_index, end_node_index):
+        edges = self.adjacency_list[start_node_index]
+        for edge in self.adjacency_list[start_node_index]:
+            if edge[0] == end_node_index:
+                return edge[1]
+        return 0
