@@ -57,13 +57,13 @@ class TestRoutePlanner(TestCase):
 
 
     def test_plan_dfs(self):
-        self.assertEqual("", self.planner.plan_dfs(0, 5))
+        self.assertEqual([], self.planner.plan_dfs(0, 20000))
 
     def test_plan_bfs(self):
-        self.assertEqual("", self.planner.plan_bfs(0, 5))
+        self.assertEqual([], self.planner.plan_bfs(0, 5))
 
     def test_merge_sort(self):
-        self.assertEqual("", self.planner.merge_sort(self.planner.plan_dfs(0, 5)))
+        self.assertEqual([], self.planner.merge_sort(self.planner.plan_dfs(0, 5)))
 
     def test_counting_sort(self):
         self.assertEqual("", self.planner.counting_sort(self.planner.plan_dfs(0, 5)))
