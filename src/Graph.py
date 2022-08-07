@@ -9,7 +9,7 @@ class Graph:
         self.points_of_interest = set()
         self.nodes = []
 
-    def add_node(self, node) -> bool:
+    def add_node(self, node: Node) -> bool:
         # Validate parameters
         if node.get_index() < len(self.adjacency_list):
             return False  # Node already exists
@@ -24,7 +24,7 @@ class Graph:
 
         return True
 
-    def add_edge(self, start_index, end_index, distance) -> bool:
+    def add_edge(self, start_index: int, end_index: int, distance: int) -> bool:
         # Validate parameters
         if start_index >= len(self.adjacency_list) or end_index >= len(self.adjacency_list):
             return False  # Node does not exist
@@ -41,19 +41,19 @@ class Graph:
 
         return True
 
-    def get_num_points_of_interest(self):
+    def get_num_points_of_interest(self) -> int:
         return len(self.points_of_interest)
 
-    def get_points_of_interest(self):
+    def get_points_of_interest(self) -> set:
         return self.points_of_interest
 
-    def get_node(self, node_index):
+    def get_node(self, node_index: int) -> Node or None:
         if node_index >= len(self.nodes):
             return None
         else:
             return self.nodes[node_index]
 
-    def get_distance(self, start_node_index, end_node_index):
+    def get_distance(self, start_node_index: int, end_node_index: int) -> int:
         edges = self.adjacency_list[start_node_index]
         for edge in self.adjacency_list[start_node_index]:
             if edge[0] == end_node_index:
