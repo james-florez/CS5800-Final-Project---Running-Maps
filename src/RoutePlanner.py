@@ -43,11 +43,12 @@ class RoutePlanner:
 
         # TODO should we check that current_distance is close to total_distance before adding to list_paths?
         if start_index == node_index and current_distance != 0:
-            list_paths.append([current_distance, path])
+            list_paths.append([current_distance, path.copy()])
+            del path[-1]  # Backtracking
             return
 
         for list_edges in self.myGraph.adjacency_list[node_index]:
-            if (not visited[list_edges[0]] or list_edges[0] == start_index) and (current_distance + list_edges[1]) <= total_distance:
+            if (not visited[list_edges[0]] and (current_distance + list_edges[1]) <= total_distance) or (list_edges[0] == start_index and (current_distance + list_edges[1]) == total_distance):
                 self.dfs_util(start_index, list_edges[0], visited, current_distance + list_edges[1], total_distance,
                               path, list_paths)
 

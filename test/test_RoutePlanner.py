@@ -87,6 +87,7 @@ class TestRoutePlanner(TestCase):
         #self.assertEqual([], self.planner.plan_dfs(0, 5000))
         #self.assertEqual([], self.planner.plan_dfs(0, 2191))  # Simple graph 0 -> 1 -> 2 -> 3 -> 0
         self.assertEqual([], self.planner_new.plan_dfs(0, 15))
+        self.assertEqual([], self.planner_new.plan_dfs(0, 25))
 
     def test_plan_bfs(self):
         self.assertEqual([], self.planner.plan_bfs(0, 5))
