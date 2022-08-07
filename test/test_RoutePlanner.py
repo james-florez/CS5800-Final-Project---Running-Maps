@@ -55,9 +55,38 @@ class TestRoutePlanner(TestCase):
         # Create RoutePlanner
         self.planner = RoutePlanner(self.simpleGraph)
 
+        # Create Nodes
+        self.node0_new = Node(0, 0, 0, ["x0", "y0"])
+        self.node1_new = Node(1, 0, 0, ["x1"])
+        self.node2_new = Node(2, 0, 0, [])
+        self.node3_new = Node(3, 0, 0, ["x3", "y3", "z3"])
+        self.node4_new = Node(4, 0, 0, [])
+
+        self.nodes_new = [self.node0, self.node1, self.node2, self.node3, self.node4]
+
+        # Create Graph
+        self.simpleGraph_new = Graph()
+
+        # Load Nodes
+        for node in self.nodes_new:
+            self.simpleGraph_new.add_node(node)
+
+        # Load Edges
+        self.simpleGraph_new.add_edge(0, 1, 5)
+        self.simpleGraph_new.add_edge(0, 2, 5)
+        self.simpleGraph_new.add_edge(1, 3, 5)
+        self.simpleGraph_new.add_edge(2, 4, 5)
+        self.simpleGraph_new.add_edge(1, 2, 5)
+        self.simpleGraph_new.add_edge(3, 4, 5)
+
+        # Create RoutePlanner
+        self.planner_new = RoutePlanner(self.simpleGraph_new)
+
 
     def test_plan_dfs(self):
-        self.assertEqual([], self.planner.plan_dfs(0, 20000))
+        #self.assertEqual([], self.planner.plan_dfs(0, 5000))
+        #self.assertEqual([], self.planner.plan_dfs(0, 2191))  # Simple graph 0 -> 1 -> 2 -> 3 -> 0
+        self.assertEqual([], self.planner_new.plan_dfs(0, 15))
 
     def test_plan_bfs(self):
         self.assertEqual([], self.planner.plan_bfs(0, 5))

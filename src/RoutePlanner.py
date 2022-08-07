@@ -5,49 +5,57 @@ from src.Graph import Graph
 
 class RoutePlanner:
     def __init__(self, graph):
-        # Should the graph be an argument in the constructor?
         self.myGraph = graph
 
-    def plan_dfs(self, start_index, distance) -> [Graph]:
+    def plan_dfs(self, start_index: int, total_distance: float) -> [Graph]:
         # Total number of vertices
-
         n = len(self.myGraph.adjacency_list)
         # Initialise the visited boolean
         visited = [False] * n
 
-        list_paths = []
+        list_paths = []  # List of paths with the format [distance, [node1, node2, ..., nodeN]]
 
-        self.dfs_util(start_index, start_index, visited, self.myGraph.adjacency_list[start_index][1], [], distance, list_paths)
+        # Fill list_paths with all paths that meet loop and distance requirements
+        self.dfs_util(start_index, start_index, visited, 0, total_distance, [], list_paths)
 
-        list_graph = []
+        list_graphs = []  # List of Graphs representing the paths
         for distance_node_list in list_paths:
             graph = Graph()
-            for node_index in distance_node_list[1]:
+            for i in range(len(distance_node_list[1])):
+                node_index = distance_node_list[1][i]
                 graph.add_node(self.myGraph.get_node(node_index))
-                # Need to figure how to add edge.
-            list_graph.append(graph)
+                if i != 0:
+                    prev_node_index = distance_node_list[1][i - 1]
+                    distance = self.myGraph.get_distance(prev_node_index, node_index)
+                    if distance != 0:
+                        graph.add_edge(prev_node_index, node_index, distance)
+                    # TODO Need to figure how to add edge. Need to record distance between nodes somewhere
+            list_graphs.append(graph)
 
-        return list_graph
+        return list_graphs
 
-    def dfs_util(self, start_index, node_index, visited, distance, path: [], total_distance, list_paths) :
+    def dfs_util(self, start_index: int, node_index: int, visited: [bool], current_distance: float, total_distance: float, path: [int], list_paths: [[int]]):
 
         visited[node_index] = True
         print(node_index)
 
         path.append(node_index)
 
-        if start_index == node_index and distance != 0:
-            list_paths.append([distance, path])
+        # TODO should we check that current_distance is close to total_distance before adding to list_paths?
+        if start_index == node_index and current_distance != 0:
+            list_paths.append([current_distance, path])
             return
 
         for list_edges in self.myGraph.adjacency_list[node_index]:
-            if not visited[list_edges[0]] and (distance + list_edges[1]) <= total_distance:
-                self.dfs_util(start_index, list_edges[0], visited, distance + list_edges[1], path, total_distance, list_paths)
+            if (not visited[list_edges[0]] or list_edges[0] == start_index) and (current_distance + list_edges[1]) <= total_distance:
+                self.dfs_util(start_index, list_edges[0], visited, current_distance + list_edges[1], total_distance,
+                              path, list_paths)
 
-        del path[-1]
+        del path[-1]  # Backtracking
+        visited[node_index] = False  # Backtracking
         return
 
-    def plan_bfs(self, start_index, distance):
+    def plan_bfs(self, start_index: int, total_distance: float):
         pass
 
     def merge_sort(self, routes):
