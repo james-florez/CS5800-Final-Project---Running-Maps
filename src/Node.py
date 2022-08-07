@@ -1,18 +1,18 @@
 class Node:
-    def __init__(self, index, x, y, points_of_interest):
+    def __init__(self, index, latitude, longitude, points_of_interest):
         self.index = index
-        self.x = x
-        self.y = y
+        self.latitude = latitude
+        self.longitude = longitude
         self.points_of_interest = points_of_interest
 
     def get_index(self):
         return self.index
 
-    def get_x(self):
-        return self.x
+    def get_latitude(self):
+        return self.latitude
 
-    def get_y(self):
-        return self.y
+    def get_longitude(self):
+        return self.longitude
 
     def get_num_points_of_interest(self):
         return len(self.points_of_interest)
