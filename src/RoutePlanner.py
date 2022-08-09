@@ -31,11 +31,29 @@ class RoutePlanner:
         pass
 
     def plan_dfs(self, start_index: int, total_distance: float) -> [Graph]:
+        """Plans routes of a given distance using DFS.
+
+        Args:
+            start_index (int): the index of the node to start the routes from
+            total_distance (int): the desired total distance of the route in feet
+        Returns:
+            [Graph]: List of Graphs representing loop routes of acceptable distance
+        """
+
         graphs = self.convert_paths_to_graphs(self.plan_dfs_list_paths(start_index, total_distance))
         self.plot_graph(graphs[0])
         return graphs
 
-    def plan_dfs_list_paths(self, start_index: int, total_distance: float) -> [int, [int]]:
+    def plan_dfs_list_paths(self, start_index: int, total_distance: float) -> [[int, [int]]]:
+        """Plans routes of a given distance using DFS.
+
+        Args:
+            start_index (int): the index of the node to start the routes from
+            total_distance (int): the desired total distance of the route in feet
+        Returns:
+            [[int, [int]]]: List of paths with the format [distance, [node1, node2, ..., nodeN]]
+        """
+
         # Total number of vertices
         n = len(self.my_graph.adjacency_list)
         # Initialise the visited boolean
@@ -48,8 +66,19 @@ class RoutePlanner:
 
         return list_paths
 
-    def dfs_util(self, start_index: int, node_index: int, visited: [bool], current_distance: float,
-                 total_distance: float, path: [int], list_paths: [[int]]):
+    def dfs_util(self, start_index: int, node_index: int, visited: [bool], current_distance: int,
+                 total_distance: int, path: [int], list_paths: [[int, [int]]]):
+        """Utility method to recursively plan routes with DFS.
+
+        Args:
+            start_index (int): the index of the starting point of the routes
+            node_index (int): the index of the current location
+            visited ([bool]): list of bools representing if nodes with corresponding indices have been visited
+            current_distance (int): the current path distance
+            total_distance (int): the desired total distance
+            path ([int]): path with the format [node1, node2, ..., nodeN]
+            list_paths ([[int, [int]]]): List of paths with the format [distance, [node1, node2, ..., nodeN]]
+        """
 
         visited[node_index] = True
         print(node_index)
@@ -88,14 +117,14 @@ class RoutePlanner:
         """
         return self.convert_paths_to_graphs(self.plan_bfs_list_paths(start_index, total_distance))
 
-    def plan_bfs_list_paths(self, start_index: int, total_distance: int) -> [int, [int]]:
+    def plan_bfs_list_paths(self, start_index: int, total_distance: int) -> [[int, [int]]]:
         """Plans routes of a given distance using BFS.
 
         Args:
             start_index (int): the index of the node to start the routes from
             total_distance (int): the desired total distance of the route in feet
         Returns:
-            [int, [int]]: List of paths with the format [distance, [node1, node2, ..., nodeN]]
+            [[int, [int]]]: List of paths with the format [distance, [node1, node2, ..., nodeN]]
         """
 
         list_paths = []  # List of paths with the format [distance, [node1, node2, ..., nodeN]]
@@ -127,12 +156,11 @@ class RoutePlanner:
 
         return list_paths
 
-
-    def convert_paths_to_graphs(self, list_paths: [int, [int]]) -> [Graph]:
+    def convert_paths_to_graphs(self, list_paths: [[int, [int]]]) -> [Graph]:
         """Converts a list of paths to a list of Graphs.
 
         Args:
-            list_paths ([int, [int]]): List of paths with the format [distance, [node1, node2, ..., nodeN]]
+            list_paths ([[int, [int]]]): List of paths with the format [distance, [node1, node2, ..., nodeN]]
         Returns:
             [Graph]: List of Graphs converted from the list of paths
         """
