@@ -149,6 +149,25 @@ class RoutePlanner:
 
         return dict
 
+    def check_distance_tolerance(self, current_distance: int, total_distance: int) -> bool:
+        """Checks if the current distance is within an acceptable tolerance of the total distance.
+
+        Uses either 0.5 miles or 10% of the total distance, whichever is smaller.
+
+        Returns:
+            bool: True if the current distance with within tolerance and False if not
+        """
+        half_mile = 2640  # 2640 ft == 0.5 miles
+        ten_percent_tolerance = total_distance * 0.1
+        # Use whatever tolerance is smaller (0.5 miles or 10% of total_distance)
+        if half_mile <= ten_percent_tolerance:
+            upper_bound = total_distance + half_mile
+            lower_bound = total_distance - half_mile
+        else:
+            upper_bound = total_distance + ten_percent_tolerance
+            lower_bound = total_distance - ten_percent_tolerance
+        return lower_bound <= current_distance <= upper_bound
+
     def merge_sort(self, routes):
         pass
 

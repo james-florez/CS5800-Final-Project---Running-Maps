@@ -96,6 +96,22 @@ class TestRoutePlanner(TestCase):
                          self.planner_new.plan_bfs_list_paths(0, 25))
         self.assertEqual([[2191, [0, 1, 2, 3, 0]], [2191, [0, 3, 2, 1, 0]]], self.planner.plan_bfs_list_paths(0, 2191))
 
+    def test_check_distance_tolerance(self):
+        self.assertTrue(self.planner.check_distance_tolerance(10000, 10000))  # Identical
+        self.assertFalse(self.planner.check_distance_tolerance(0, 10000))  # Zero
+
+        # Check 10% tolerance
+        self.assertTrue(self.planner.check_distance_tolerance(11000, 10000))
+        self.assertFalse(self.planner.check_distance_tolerance(11001, 10000))
+        self.assertTrue(self.planner.check_distance_tolerance(9000, 10000))
+        self.assertFalse(self.planner.check_distance_tolerance(8999, 10000))
+
+        # Check 0.5 mile tolerance
+        self.assertTrue(self.planner.check_distance_tolerance(102640, 100000))
+        self.assertFalse(self.planner.check_distance_tolerance(102641, 100000))
+        self.assertTrue(self.planner.check_distance_tolerance(97360, 100000))
+        self.assertFalse(self.planner.check_distance_tolerance(97359, 100000))
+
     def test_merge_sort(self):
         self.assertEqual([], self.planner.merge_sort(self.planner.plan_dfs_list_paths(0, 5)))
 
