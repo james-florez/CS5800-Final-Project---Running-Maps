@@ -10,8 +10,20 @@ import matplotlib
 
 
 class RoutePlanner:
-    def __init__(self, graph):
-        self.myGraph = graph
+    """A class used to plan routes through a Graph (city map)
+
+    Attributes:
+        my_graph (Graph): the Graph used for planning routes through
+    """
+
+    def __init__(self, graph: Graph):
+        """Initializes a RoutePlanner object.
+
+        Args:
+            graph (Graph): the Graph to be used for planning routes through
+        """
+
+        self.my_graph = graph
 
     # TODO: GO function will be used to initiate the sequence of function calls which will create the list of graphs and sort.
     def go(self):
@@ -25,7 +37,7 @@ class RoutePlanner:
 
     def plan_dfs_list_paths(self, start_index: int, total_distance: float) -> [int, [int]]:
         # Total number of vertices
-        n = len(self.myGraph.adjacency_list)
+        n = len(self.my_graph.adjacency_list)
         # Initialise the visited boolean
         visited = [False] * n
 
@@ -51,7 +63,7 @@ class RoutePlanner:
             del path[-1]  # Backtracking
             return
 
-        for list_edges in self.myGraph.adjacency_list[node_index]:
+        for list_edges in self.my_graph.adjacency_list[node_index]:
             if (not visited[list_edges[0]] and (current_distance + list_edges[1]) <= total_distance) or (
                     list_edges[0] == start_index and (current_distance + list_edges[1]) == total_distance):
                 self.dfs_util(start_index, list_edges[0], visited, current_distance + list_edges[1], total_distance,
@@ -65,10 +77,27 @@ class RoutePlanner:
     def isSamePath(self) -> bool:
         return False
 
-    def plan_bfs(self, start_index: int, total_distance: float) -> [Graph]:
+    def plan_bfs(self, start_index: int, total_distance: int) -> [Graph]:
+        """Plans routes of a given distance using BFS.
+
+        Args:
+            start_index (int): the index of the node to start the routes from
+            total_distance (int): the desired total distance of the route in feet
+        Returns:
+            [Graph]: List of Graphs representing loop routes of acceptable distance
+        """
         return self.convert_paths_to_graphs(self.plan_bfs_list_paths(start_index, total_distance))
 
-    def plan_bfs_list_paths(self, start_index: int, total_distance: float) -> [int, [int]]:
+    def plan_bfs_list_paths(self, start_index: int, total_distance: int) -> [int, [int]]:
+        """Plans routes of a given distance using BFS.
+
+        Args:
+            start_index (int): the index of the node to start the routes from
+            total_distance (int): the desired total distance of the route in feet
+        Returns:
+            [int, [int]]: List of paths with the format [distance, [node1, node2, ..., nodeN]]
+        """
+
         list_paths = []  # List of paths with the format [distance, [node1, node2, ..., nodeN]]
         q = deque()  # Create a queue for BFS
         q.append([0, [start_index]])  # Append the starting node with a distance of 0
@@ -85,7 +114,7 @@ class RoutePlanner:
                 list_paths.append(current_path.copy())
 
             # Add children paths to the queue
-            connected_nodes = self.myGraph.adjacency_list[current_node_index]
+            connected_nodes = self.my_graph.adjacency_list[current_node_index]
             for connected_node in connected_nodes:
                 new_distance = current_distance + connected_node[1]
                 new_node_index = connected_node[0]
@@ -100,15 +129,23 @@ class RoutePlanner:
 
 
     def convert_paths_to_graphs(self, list_paths: [int, [int]]) -> [Graph]:
+        """Converts a list of paths to a list of Graphs.
+
+        Args:
+            list_paths ([int, [int]]): List of paths with the format [distance, [node1, node2, ..., nodeN]]
+        Returns:
+            [Graph]: List of Graphs converted from the list of paths
+        """
+
         list_graphs = []  # List of Graphs representing the paths
         for distance_node_list in list_paths:
             graph = Graph()
             for i in range(len(distance_node_list[1])):
                 node_index = distance_node_list[1][i]
-                graph.add_node(self.myGraph.get_node(node_index))
+                graph.add_node(self.my_graph.get_node(node_index))
                 if i != 0:
                     prev_node_index = distance_node_list[1][i - 1]
-                    distance = self.myGraph.get_distance(prev_node_index, node_index)
+                    distance = self.my_graph.get_distance(prev_node_index, node_index)
                     if distance != 0:
                         graph.add_edge(prev_node_index, node_index, distance)
             # TODO check if this graph is equivalent to one that was already created
@@ -124,7 +161,7 @@ class RoutePlanner:
                 }
 
         for node in graph.nodes:
-            for edge in self.myGraph.adjacency_list[node.get_index()]:
+            for edge in self.my_graph.adjacency_list[node.get_index()]:
                 dict['src_lat'] += [node.get_latitude()]
                 dict['src_lat'] += [node.get_longitude()]
                 dict['dest_lat'] += [graph.get_node(edge[0]).get_latitude()]
