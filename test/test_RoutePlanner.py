@@ -56,11 +56,11 @@ class TestRoutePlanner(TestCase):
         self.planner = RoutePlanner(self.simpleGraph)
 
         # Create Nodes
-        self.node0_new = Node(0, 0, 0, ["x0", "y0"])
-        self.node1_new = Node(1, 0, 0, ["x1"])
-        self.node2_new = Node(2, 0, 0, [])
-        self.node3_new = Node(3, 0, 0, ["x3", "y3", "z3"])
-        self.node4_new = Node(4, 0, 0, [])
+        self.node0_new = Node(0, 42.35093, -71.06304, ["x0", "y0"])
+        self.node1_new = Node(1, 42.35063, -71.06154, ["x1"])
+        self.node2_new = Node(2, 42.35016,  -71.05974, [])
+        self.node3_new = Node(3, 42.3524, 71.06455, ["x3", "y3", "z3"])
+        self.node4_new = Node(4, 42.35238, -71.06261, [])
 
         self.nodes_new = [self.node0, self.node1, self.node2, self.node3, self.node4]
 
@@ -73,11 +73,11 @@ class TestRoutePlanner(TestCase):
 
         # Load Edges
         self.simpleGraph_new.add_edge(0, 1, 5)
-        self.simpleGraph_new.add_edge(0, 2, 5)
-        self.simpleGraph_new.add_edge(1, 3, 5)
-        self.simpleGraph_new.add_edge(2, 4, 5)
         self.simpleGraph_new.add_edge(1, 2, 5)
+        self.simpleGraph_new.add_edge(2, 3, 5)
+        self.simpleGraph_new.add_edge(3, 0, 5)
         self.simpleGraph_new.add_edge(3, 4, 5)
+        self.simpleGraph_new.add_edge(4, 0, 5)
 
         # Create RoutePlanner
         self.planner_new = RoutePlanner(self.simpleGraph_new)

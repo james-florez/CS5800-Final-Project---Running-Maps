@@ -1,14 +1,26 @@
 from typing import Optional
 
 from src.Graph import Graph
+import numpy
+import pyglet
+import geoplotlib
+from geoplotlib.utils import read_csv
+import matplotlib
 
 
 class RoutePlanner:
     def __init__(self, graph):
         self.myGraph = graph
 
+    # TODO: GO function will be used to initiate the sequence of function calls which will create the list of graphs and sort.
+    def go(self):
+        # TODO convert the user input which will be in miles to feet.
+        pass
+
     def plan_dfs(self, start_index: int, total_distance: float) -> [Graph]:
-        return self.convert_paths_to_graphs(self.plan_dfs_list_paths(start_index, total_distance))
+        graphs = self.convert_paths_to_graphs(self.plan_dfs_list_paths(start_index, total_distance))
+        self.plot_graph(graphs[0])
+        return graphs
 
     def plan_dfs_list_paths(self, start_index: int, total_distance: float) -> [int, [int]]:
         # Total number of vertices
@@ -23,7 +35,8 @@ class RoutePlanner:
 
         return list_paths
 
-    def dfs_util(self, start_index: int, node_index: int, visited: [bool], current_distance: float, total_distance: float, path: [int], list_paths: [[int]]):
+    def dfs_util(self, start_index: int, node_index: int, visited: [bool], current_distance: float,
+                 total_distance: float, path: [int], list_paths: [[int]]):
 
         visited[node_index] = True
         print(node_index)
@@ -38,13 +51,18 @@ class RoutePlanner:
             return
 
         for list_edges in self.myGraph.adjacency_list[node_index]:
-            if (not visited[list_edges[0]] and (current_distance + list_edges[1]) <= total_distance) or (list_edges[0] == start_index and (current_distance + list_edges[1]) == total_distance):
+            if (not visited[list_edges[0]] and (current_distance + list_edges[1]) <= total_distance) or (
+                    list_edges[0] == start_index and (current_distance + list_edges[1]) == total_distance):
                 self.dfs_util(start_index, list_edges[0], visited, current_distance + list_edges[1], total_distance,
                               path, list_paths)
 
         del path[-1]  # Backtracking
         visited[node_index] = False  # Backtracking
         return
+
+    # TODO Reverse the node list and check if the two lists are equivalent to each other or not
+    def isSamePath(self) -> bool:
+        return False
 
     def plan_bfs(self, start_index: int, total_distance: float) -> [Graph]:
         return self.convert_paths_to_graphs(self.plan_bfs_list_paths(start_index, total_distance))
@@ -64,10 +82,43 @@ class RoutePlanner:
                     distance = self.myGraph.get_distance(prev_node_index, node_index)
                     if distance != 0:
                         graph.add_edge(prev_node_index, node_index, distance)
-                    # TODO Need to figure how to add edge. Need to record distance between nodes somewhere
             # TODO check if this graph is equivalent to one that was already created
             list_graphs.append(graph)
         return list_graphs
+
+    # TODO : Plot the graph using geoplotlib.
+    def plot_graph(self, graph: Graph) -> {}:
+        dict = {'src_lat': [],
+                'src_lon': [],
+                'dest_lat': [],
+                'dest_lon': [],
+                }
+
+        for node in graph.nodes:
+            for edge in self.myGraph.adjacency_list[node.get_index()]:
+                dict['src_lat'] += [node.get_latitude()]
+                dict['src_lat'] += [node.get_longitude()]
+                dict['dest_lat'] += [graph.get_node(edge[0]).get_latitude()]
+                dict['dest_lon'] += [graph.get_node(edge[0]).get_latitude()]
+
+        dot = False
+        if dot:
+            data = read_csv("../data/boston_test.csv")
+            geoplotlib.dot(data, point_size=3)
+        else:
+            data = dict
+            geoplotlib.graph(data,
+                             src_lat='src_lat',
+                             src_lon='src_lon',
+                             dest_lat='dest_lat',
+                             dest_lon='dest_lon',
+                             color='hot_r',
+                             alpha=100,
+                             linewidth=20)
+
+        geoplotlib.show()
+
+        return dict
 
     def merge_sort(self, routes):
         pass
