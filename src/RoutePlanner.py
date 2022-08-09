@@ -1,3 +1,4 @@
+from collections import deque
 from typing import Optional
 
 from src.Graph import Graph
@@ -68,7 +69,35 @@ class RoutePlanner:
         return self.convert_paths_to_graphs(self.plan_bfs_list_paths(start_index, total_distance))
 
     def plan_bfs_list_paths(self, start_index: int, total_distance: float) -> [int, [int]]:
-        pass
+        list_paths = []  # List of paths with the format [distance, [node1, node2, ..., nodeN]]
+        q = deque()  # Create a queue for BFS
+        q.append([0, [start_index]])  # Append the starting node with a distance of 0
+        while q:
+            # Get the current path information
+            current_path = q.popleft()  # Path with the format [distance, [node1, node2, ..., nodeN]]
+            current_distance = current_path[0]
+            current_node_path = current_path[1]
+            current_node_index = current_node_path[-1]  # Current node is the last one in the list
+
+            # If a loop of acceptable distance is formed add it to list_paths
+            # TODO update with distance tolerance function
+            if current_node_index == start_index and current_distance == total_distance:
+                list_paths.append(current_path.copy())
+
+            # Add children paths to the queue
+            connected_nodes = self.myGraph.adjacency_list[current_node_index]
+            for connected_node in connected_nodes:
+                new_distance = current_distance + connected_node[1]
+                new_node_index = connected_node[0]
+                new_node_path = current_node_path.copy()
+                new_node_path.append(new_node_index)
+                # TODO update with distance tolerance function
+                if (new_distance <= total_distance and new_node_index not in current_node_path)\
+                        or (new_distance == total_distance and new_node_index == start_index):
+                    q.append([new_distance, new_node_path])
+
+        return list_paths
+
 
     def convert_paths_to_graphs(self, list_paths: [int, [int]]) -> [Graph]:
         list_graphs = []  # List of Graphs representing the paths
