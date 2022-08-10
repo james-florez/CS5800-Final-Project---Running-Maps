@@ -1,5 +1,4 @@
 from collections import defaultdict
-
 from src.Node import Node
 
 
@@ -7,17 +6,15 @@ class Graph:
     """A class used to represent a Graph (city map/route).
 
     Attributes:
-        adjacency_list ([[(node_index, distance)]]: adjacency list representation of the Graph with distance values
+        adjacency_list ({{int}}): adjacency list representation of the Graph with distance values
         points_of_interest (set): names of points of interest in the Graph
         nodes (list): Nodes in the Graph
     """
 
     def __init__(self):
-        """Initializes a Node object."""
+        """Initializes a Graph object."""
 
-        # TODO possibly make the adjacencyList use dictionaries
         self.adjacency_list = {}
-
         self.points_of_interest = set()
         self.nodes = {}
 

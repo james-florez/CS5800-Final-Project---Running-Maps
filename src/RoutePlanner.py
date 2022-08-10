@@ -25,26 +25,48 @@ class RoutePlanner:
 
         self.my_graph = graph
 
-    # TODO: GO function will be used to initiate the sequence of function calls which will create the list of graphs and sort.
-    def go(self):
-        # TODO convert the user input which will be in miles to feet.
-        pass
-
-    def plan_dfs(self, start_index: int, total_distance: float) -> [Graph]:
-        """Plans routes of a given distance using DFS.
+    def go(self, start_index: int, total_distance: float, mode: int):
+        """Plans routes based on starting node index and desired distance.
 
         Args:
-            start_index (int): the index of the node to start the routes from
-            total_distance (int): the desired total distance of the route in feet
-        Returns:
-            [Graph]: List of Graphs representing loop routes of acceptable distance
+            start_index (int): the index of the starting node
+            total_distance (float): the desired route distance in miles
         """
 
-        graphs = self.convert_paths_to_graphs(self.plan_dfs_list_paths(start_index, total_distance))
-        self.plot_graph(graphs[0])
-        return graphs
+        # Validate input
+        if start_index < 0 or start_index >= len(self.my_graph.nodes):
+            print("Start index value out of range.")
+            return
+        if total_distance <= 0:
+            print("Total distance must be a positive.")
+            return
+        if mode <= 0 or mode > 2:
+            print("Incorrect mode selection.")
+            return
 
-    def plan_dfs_list_paths(self, start_index: int, total_distance: float) -> [[int, [int]]]:
+        # Convert the user input from miles to feet.
+        total_distance_feet = round(total_distance * 5280)
+
+        # Plan paths using the specified mode (DFS or BFS)
+        if mode == 1:
+            list_paths = self.plan_dfs(start_index, total_distance_feet)
+        else:
+            list_paths = self.plan_bfs(start_index, total_distance_feet)
+
+        # Convert the paths to Graphs
+        list_graphs = self.convert_paths_to_graphs(list_paths)
+
+        # Sort the Graphs by number of points of interest
+        # TODO this sorting might not be correct
+        list_graphs.sort(key=lambda x: x.get_num_points_of_interest())
+
+        # Plot the best graph
+        self.plot_graph(list_graphs[-1])
+
+        # TODO how to iterate through plotting graphs?
+        # TODO Take command line input to go to the next graph?
+
+    def plan_dfs(self, start_index: int, total_distance: int) -> [[int, [int]]]:
         """Plans routes of a given distance using DFS.
 
         Args:
@@ -85,18 +107,17 @@ class RoutePlanner:
 
         path.append(node_index)
 
-        # TODO should we check that current_distance is close to total_distance before adding to list_paths?
-        if start_index == node_index and current_distance != 0:
+        if start_index == node_index and self.check_distance_tolerance(current_distance, total_distance):
             # TODO is current_distance needed in this tuple? What do we use it for?
             list_paths.append([current_distance, path.copy()])
             del path[-1]  # Backtracking
             return
 
         for end_node_index, distance in self.my_graph.adjacency_list[node_index].items():
-            if (not visited[end_node_index] and (current_distance + distance) <= total_distance) or (
-                    end_node_index == start_index and (current_distance + distance) == total_distance):
-                self.dfs_util(start_index, end_node_index, visited, current_distance + distance, total_distance,
-                              path, list_paths)
+            new_distance = current_distance + distance
+            if (not visited[end_node_index] and new_distance < total_distance) or (
+                    end_node_index == start_index and self.check_distance_tolerance(new_distance, total_distance)):
+                self.dfs_util(start_index, end_node_index, visited, new_distance, total_distance, path, list_paths)
 
         del path[-1]  # Backtracking
         visited[node_index] = False  # Backtracking
@@ -106,18 +127,7 @@ class RoutePlanner:
     def isSamePath(self) -> bool:
         return False
 
-    def plan_bfs(self, start_index: int, total_distance: int) -> [Graph]:
-        """Plans routes of a given distance using BFS.
-
-        Args:
-            start_index (int): the index of the node to start the routes from
-            total_distance (int): the desired total distance of the route in feet
-        Returns:
-            [Graph]: List of Graphs representing loop routes of acceptable distance
-        """
-        return self.convert_paths_to_graphs(self.plan_bfs_list_paths(start_index, total_distance))
-
-    def plan_bfs_list_paths(self, start_index: int, total_distance: int) -> [[int, [int]]]:
+    def plan_bfs(self, start_index: int, total_distance: int) -> [[int, [int]]]:
         """Plans routes of a given distance using BFS.
 
         Args:
@@ -139,19 +149,17 @@ class RoutePlanner:
 
             # If a loop of acceptable distance is formed add it to list_paths
             # TODO update with distance tolerance function
-            if current_node_index == start_index and current_distance == total_distance:
+            if current_node_index == start_index and self.check_distance_tolerance(current_distance, total_distance):
                 list_paths.append(current_path.copy())
 
             # Add children paths to the queue
-            connected_nodes = self.my_graph.adjacency_list[current_node_index]
-            for connected_node in connected_nodes:
-                new_distance = current_distance + connected_node[1]
-                new_node_index = connected_node[0]
+            for new_node_index, edge_distance in self.my_graph.adjacency_list[current_node_index].items():
+                new_distance = current_distance + edge_distance
                 new_node_path = current_node_path.copy()
                 new_node_path.append(new_node_index)
                 # TODO update with distance tolerance function
-                if (new_distance <= total_distance and new_node_index not in current_node_path)\
-                        or (new_distance == total_distance and new_node_index == start_index):
+                if (new_distance < total_distance and new_node_index not in current_node_path) or (
+                        self.check_distance_tolerance(new_distance, total_distance) and new_node_index == start_index):
                     q.append([new_distance, new_node_path])
 
         return list_paths
@@ -167,12 +175,14 @@ class RoutePlanner:
 
         list_graphs = []  # List of Graphs representing the paths
         for distance_node_list in list_paths:
+            # TODO are we using the total distance of the paths anywhere??
             graph = Graph()
-            for i in range(len(distance_node_list[1])):
-                node_index = distance_node_list[1][i]
+            path = distance_node_list[1]
+            for i in range(len(path)):
+                node_index = path[i]
                 graph.add_node(self.my_graph.get_node(node_index))
                 if i != 0:
-                    prev_node_index = distance_node_list[1][i - 1]
+                    prev_node_index = path[i - 1]
                     distance = self.my_graph.get_distance(prev_node_index, node_index)
                     if distance != 0:
                         graph.add_edge(prev_node_index, node_index, distance)
@@ -196,7 +206,6 @@ class RoutePlanner:
                 dict['src_lon'] += [node.get_longitude()]
                 dict['dest_lat'] += [graph.get_node(end_node_index).get_latitude()]
                 dict['dest_lon'] += [graph.get_node(end_node_index).get_longitude()]
-
 
         data = dict
         geoplotlib.graph(data,
@@ -230,9 +239,3 @@ class RoutePlanner:
             upper_bound = total_distance + ten_percent_tolerance
             lower_bound = total_distance - ten_percent_tolerance
         return lower_bound <= current_distance <= upper_bound
-
-    def merge_sort(self, routes):
-        pass
-
-    def counting_sort(self, routes):
-        pass

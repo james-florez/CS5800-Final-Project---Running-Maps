@@ -14,11 +14,12 @@ def main():
     planner = RoutePlanner(dummy_graph)
 
     # Prompt the user for input
-    start_node_index = input("Enter the index of the starting position:\n")
-    total_distance = input("Enter the desired loop distance in miles:\n")
+    start_node_index = int(input("Enter the index of the starting position:\n"))
+    total_distance = float(input("Enter the desired loop distance in miles:\n"))
+    mode = int(input("Enter 1 for DFS or 2 for BFS:\n"))
 
     # Use the RoutePlanner to plan acceptable routes
-    planner.go()
+    planner.go(start_node_index, total_distance, mode)
 
 
 main()
