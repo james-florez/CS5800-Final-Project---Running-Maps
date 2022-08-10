@@ -207,7 +207,6 @@ class RoutePlanner:
                 dict['dest_lat'] += [graph.get_node(end_node_index).get_latitude()]
                 dict['dest_lon'] += [graph.get_node(end_node_index).get_longitude()]
 
-
         data = dict
         geoplotlib.graph(data,
                          src_lat='src_lat',
