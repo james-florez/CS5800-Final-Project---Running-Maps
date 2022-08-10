@@ -118,10 +118,8 @@ class RoutePlanner:
                 list_paths.append(current_path.copy())
 
             # Add children paths to the queue
-            connected_nodes = self.my_graph.adjacency_list[current_node_index]
-            for connected_node in connected_nodes:
-                new_distance = current_distance + connected_node[1]
-                new_node_index = connected_node[0]
+            for new_node_index, edge_distance in self.my_graph.adjacency_list[current_node_index].items():
+                new_distance = current_distance + edge_distance
                 new_node_path = current_node_path.copy()
                 new_node_path.append(new_node_index)
                 # TODO update with distance tolerance function
