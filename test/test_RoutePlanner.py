@@ -82,6 +82,10 @@ class TestRoutePlanner(TestCase):
         # Create RoutePlanner
         self.planner_new = RoutePlanner(self.simpleGraph_new)
 
+    def test_go(self):
+        # TODO test go. What should it return?
+        self.planner_new.go(0, 15 / 5280, 1)
+
     def test_plan_dfs(self):
         self.assertEqual([[15, [0, 3, 4, 0]], [15, [0, 4, 3, 0]]], self.planner_new.plan_dfs(0, 15))
         #self.assertEqual([[15, [1, 0, 2, 1]], [15, [1, 2, 0, 1]]], self.planner_new.plan_dfs(1, 15))

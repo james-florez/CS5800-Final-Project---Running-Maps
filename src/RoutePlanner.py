@@ -25,12 +25,48 @@ class RoutePlanner:
 
         self.my_graph = graph
 
-    # TODO: GO function will be used to initiate the sequence of function calls which will create the list of graphs and sort.
-    def go(self):
-        # TODO convert the user input which will be in miles to feet.
-        pass
+    def go(self, start_index: int, total_distance: float, mode: int):
+        """Plans routes based on starting node index and desired distance.
 
-    def plan_dfs(self, start_index: int, total_distance: float) -> [[int, [int]]]:
+        Args:
+            start_index (int): the index of the starting node
+            total_distance (float): the desired route distance in miles
+        """
+
+        # Validate input
+        if start_index < 0 or start_index >= len(self.my_graph.nodes):
+            print("Start index value out of range.")
+            return
+        if total_distance <= 0:
+            print("Total distance must be a positive.")
+            return
+        if mode <= 0 or mode > 2:
+            print("Incorrect mode selection.")
+            return
+
+        # Convert the user input from miles to feet.
+        total_distance_feet = round(total_distance * 5280)
+
+        # Plan paths using the specified mode (DFS or BFS)
+        if mode == 1:
+            list_paths = self.plan_dfs(start_index, total_distance_feet)
+        else:
+            list_paths = self.plan_bfs(start_index, total_distance_feet)
+
+        # Convert the paths to Graphs
+        list_graphs = self.convert_paths_to_graphs(list_paths)
+
+        # Sort the Graphs by number of points of interest
+        # TODO this sorting might not be correct
+        list_graphs.sort(key=lambda x: x.get_num_points_of_interest())
+
+        # Plot the best graph
+        self.plot_graph(list_graphs[-1])
+
+        # TODO how to iterate through plotting graphs?
+        # TODO Take command line input to go to the next graph?
+
+    def plan_dfs(self, start_index: int, total_distance: int) -> [[int, [int]]]:
         """Plans routes of a given distance using DFS.
 
         Args:
