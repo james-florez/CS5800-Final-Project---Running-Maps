@@ -107,18 +107,17 @@ class RoutePlanner:
 
         path.append(node_index)
 
-        # TODO should we check that current_distance is close to total_distance before adding to list_paths?
-        if start_index == node_index and current_distance != 0:
+        if start_index == node_index and self.check_distance_tolerance(current_distance, total_distance):
             # TODO is current_distance needed in this tuple? What do we use it for?
             list_paths.append([current_distance, path.copy()])
             del path[-1]  # Backtracking
             return
 
         for end_node_index, distance in self.my_graph.adjacency_list[node_index].items():
-            if (not visited[end_node_index] and (current_distance + distance) <= total_distance) or (
-                    end_node_index == start_index and (current_distance + distance) == total_distance):
-                self.dfs_util(start_index, end_node_index, visited, current_distance + distance, total_distance,
-                              path, list_paths)
+            new_distance = current_distance + distance
+            if (not visited[end_node_index] and new_distance < total_distance) or (
+                    end_node_index == start_index and self.check_distance_tolerance(new_distance, total_distance)):
+                self.dfs_util(start_index, end_node_index, visited, new_distance, total_distance, path, list_paths)
 
         del path[-1]  # Backtracking
         visited[node_index] = False  # Backtracking
@@ -150,7 +149,7 @@ class RoutePlanner:
 
             # If a loop of acceptable distance is formed add it to list_paths
             # TODO update with distance tolerance function
-            if current_node_index == start_index and current_distance == total_distance:
+            if current_node_index == start_index and self.check_distance_tolerance(current_distance, total_distance):
                 list_paths.append(current_path.copy())
 
             # Add children paths to the queue
@@ -159,8 +158,8 @@ class RoutePlanner:
                 new_node_path = current_node_path.copy()
                 new_node_path.append(new_node_index)
                 # TODO update with distance tolerance function
-                if (new_distance <= total_distance and new_node_index not in current_node_path)\
-                        or (new_distance == total_distance and new_node_index == start_index):
+                if (new_distance < total_distance and new_node_index not in current_node_path) or (
+                        self.check_distance_tolerance(new_distance, total_distance) and new_node_index == start_index):
                     q.append([new_distance, new_node_path])
 
         return list_paths
