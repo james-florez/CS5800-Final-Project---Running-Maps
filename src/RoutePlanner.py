@@ -1,3 +1,4 @@
+from collections import deque
 from typing import Optional
 
 from src.Graph import Graph
@@ -29,21 +30,7 @@ class RoutePlanner:
         # TODO convert the user input which will be in miles to feet.
         pass
 
-    def plan_dfs(self, start_index: int, total_distance: float) -> [Graph]:
-        """Plans routes of a given distance using DFS.
-
-        Args:
-            start_index (int): the index of the node to start the routes from
-            total_distance (int): the desired total distance of the route in feet
-        Returns:
-            [Graph]: List of Graphs representing loop routes of acceptable distance
-        """
-
-        graphs = self.convert_paths_to_graphs(self.plan_dfs_list_paths(start_index, total_distance))
-        self.plot_graph(graphs[0])
-        return graphs
-
-    def plan_dfs_list_paths(self, start_index: int, total_distance: float) -> [[int, [int]]]:
+    def plan_dfs(self, start_index: int, total_distance: float) -> [[int, [int]]]:
         """Plans routes of a given distance using DFS.
 
         Args:
@@ -105,18 +92,7 @@ class RoutePlanner:
     def isSamePath(self) -> bool:
         return False
 
-    def plan_bfs(self, start_index: int, total_distance: int) -> [Graph]:
-        """Plans routes of a given distance using BFS.
-
-        Args:
-            start_index (int): the index of the node to start the routes from
-            total_distance (int): the desired total distance of the route in feet
-        Returns:
-            [Graph]: List of Graphs representing loop routes of acceptable distance
-        """
-        return self.convert_paths_to_graphs(self.plan_bfs_list_paths(start_index, total_distance))
-
-    def plan_bfs_list_paths(self, start_index: int, total_distance: int) -> [[int, [int]]]:
+    def plan_bfs(self, start_index: int, total_distance: int) -> [[int, [int]]]:
         """Plans routes of a given distance using BFS.
 
         Args:

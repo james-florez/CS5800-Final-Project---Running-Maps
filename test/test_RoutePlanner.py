@@ -83,21 +83,18 @@ class TestRoutePlanner(TestCase):
         self.planner_new = RoutePlanner(self.simpleGraph_new)
 
     def test_plan_dfs(self):
-        self.assertEqual([[15, [0, 1, 2, 0]], [15, [0, 2, 1, 0]]], self.planner_new.plan_dfs(0, 15))
-
-    def test_plan_dfs_list_paths(self):
-        self.assertEqual([[15, [0, 3, 4, 0]], [15, [0, 4, 3, 0]]], self.planner_new.plan_dfs_list_paths(0, 15))
-        #self.assertEqual([[15, [1, 0, 2, 1]], [15, [1, 2, 0, 1]]], self.planner_new.plan_dfs_list_paths(1, 15))
+        self.assertEqual([[15, [0, 3, 4, 0]], [15, [0, 4, 3, 0]]], self.planner_new.plan_dfs(0, 15))
+        #self.assertEqual([[15, [1, 0, 2, 1]], [15, [1, 2, 0, 1]]], self.planner_new.plan_dfs(1, 15))
         self.assertEqual([[25, [0, 1, 2, 3, 4, 0]], [25, [0, 4, 3, 2, 1, 0]]],
-                         self.planner_new.plan_dfs_list_paths(0, 25))
-        self.assertEqual([[2191, [0, 1, 2, 3, 0]], [2191, [0, 3, 2, 1, 0]]], self.planner.plan_dfs_list_paths(0, 2191))
+                         self.planner_new.plan_dfs(0, 25))
+        self.assertEqual([[2191, [0, 1, 2, 3, 0]], [2191, [0, 3, 2, 1, 0]]], self.planner.plan_dfs(0, 2191))
 
-    def test_plan_bfs_list_paths(self):
-        self.assertEqual([[15, [0, 3, 4, 0]], [15, [0, 4, 3, 0]]], self.planner_new.plan_bfs_list_paths(0, 15))
-        #self.assertEqual([[15, [1, 0, 2, 1]], [15, [1, 2, 0, 1]]], self.planner_new.plan_bfs_list_paths(1, 15))
+    def test_plan_bfs(self):
+        self.assertEqual([[15, [0, 3, 4, 0]], [15, [0, 4, 3, 0]]], self.planner_new.plan_bfs(0, 15))
+        #self.assertEqual([[15, [1, 0, 2, 1]], [15, [1, 2, 0, 1]]], self.planner_new.plan_bfs(1, 15))
         self.assertEqual([[25, [0, 1, 2, 3, 4, 0]], [25, [0, 4, 3, 2, 1, 0]]],
-                         self.planner_new.plan_bfs_list_paths(0, 25))
-        self.assertEqual([[2191, [0, 1, 2, 3, 0]], [2191, [0, 3, 2, 1, 0]]], self.planner.plan_bfs_list_paths(0, 2191))
+                         self.planner_new.plan_bfs(0, 25))
+        self.assertEqual([[2191, [0, 1, 2, 3, 0]], [2191, [0, 3, 2, 1, 0]]], self.planner.plan_bfs(0, 2191))
 
     def test_check_distance_tolerance(self):
         self.assertTrue(self.planner.check_distance_tolerance(10000, 10000))  # Identical
@@ -116,7 +113,7 @@ class TestRoutePlanner(TestCase):
         self.assertFalse(self.planner.check_distance_tolerance(97359, 100000))
 
     def test_merge_sort(self):
-        self.assertEqual([], self.planner.merge_sort(self.planner.plan_dfs_list_paths(0, 5)))
+        self.assertEqual([], self.planner.merge_sort(self.planner.plan_dfs(0, 5)))
 
     def test_counting_sort(self):
-        self.assertEqual("", self.planner.counting_sort(self.planner.plan_dfs_list_paths(0, 5)))
+        self.assertEqual("", self.planner.counting_sort(self.planner.plan_dfs(0, 5)))
