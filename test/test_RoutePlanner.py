@@ -115,9 +115,3 @@ class TestRoutePlanner(TestCase):
         self.assertFalse(self.planner.check_distance_tolerance(102641, 100000))
         self.assertTrue(self.planner.check_distance_tolerance(97360, 100000))
         self.assertFalse(self.planner.check_distance_tolerance(97359, 100000))
-
-    def test_merge_sort(self):
-        self.assertEqual([], self.planner.merge_sort(self.planner.plan_dfs(0, 5)))
-
-    def test_counting_sort(self):
-        self.assertEqual("", self.planner.counting_sort(self.planner.plan_dfs(0, 5)))

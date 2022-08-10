@@ -239,9 +239,3 @@ class RoutePlanner:
             upper_bound = total_distance + ten_percent_tolerance
             lower_bound = total_distance - ten_percent_tolerance
         return lower_bound <= current_distance <= upper_bound
-
-    def merge_sort(self, routes):
-        pass
-
-    def counting_sort(self, routes):
-        pass
