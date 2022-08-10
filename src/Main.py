@@ -4,14 +4,14 @@
 
 from Graph import Graph
 from RoutePlanner import RoutePlanner
-
+from BostonGraph import BostonGraph
 
 def main():
     # Load a Graph of Boston
 
     # Create a RoutePlanner object
-    dummy_graph = Graph()
-    planner = RoutePlanner(dummy_graph)
+    boston_graph = BostonGraph()
+    planner = RoutePlanner(boston_graph.get_boston_map())
 
     # Prompt the user for input
     start_node_index = int(input("Enter the index of the starting position:\n"))
