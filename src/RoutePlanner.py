@@ -50,10 +50,10 @@ class RoutePlanner:
             del path[-1]  # Backtracking
             return
 
-        for list_edges in self.myGraph.adjacency_list[node_index]:
-            if (not visited[list_edges[0]] and (current_distance + list_edges[1]) <= total_distance) or (
-                    list_edges[0] == start_index and (current_distance + list_edges[1]) == total_distance):
-                self.dfs_util(start_index, list_edges[0], visited, current_distance + list_edges[1], total_distance,
+        for end_node_index, distance in self.myGraph.adjacency_list[node_index].items():
+            if (not visited[end_node_index] and (current_distance + distance) <= total_distance) or (
+                    end_node_index == start_index and (current_distance + distance) == total_distance):
+                self.dfs_util(start_index, end_node_index, visited, current_distance + distance, total_distance,
                               path, list_paths)
 
         del path[-1]  # Backtracking
@@ -94,27 +94,25 @@ class RoutePlanner:
                 'dest_lon': [],
                 }
 
-        for node in graph.nodes:
-            for edge in self.myGraph.adjacency_list[node.get_index()]:
+        # TODO: There are repeats while adding the values in the dictionary, we need to figure that out.
+        for node in graph.nodes.values():
+            node_index = node.get_index()
+            for end_node_index in graph.adjacency_list[node.get_index()].keys():
                 dict['src_lat'] += [node.get_latitude()]
-                dict['src_lat'] += [node.get_longitude()]
-                dict['dest_lat'] += [graph.get_node(edge[0]).get_latitude()]
-                dict['dest_lon'] += [graph.get_node(edge[0]).get_latitude()]
+                dict['src_lon'] += [node.get_longitude()]
+                dict['dest_lat'] += [graph.get_node(end_node_index).get_latitude()]
+                dict['dest_lon'] += [graph.get_node(end_node_index).get_longitude()]
 
-        dot = False
-        if dot:
-            data = read_csv("../data/boston_test.csv")
-            geoplotlib.dot(data, point_size=3)
-        else:
-            data = dict
-            geoplotlib.graph(data,
-                             src_lat='src_lat',
-                             src_lon='src_lon',
-                             dest_lat='dest_lat',
-                             dest_lon='dest_lon',
-                             color='hot_r',
-                             alpha=100,
-                             linewidth=20)
+
+        data = dict
+        geoplotlib.graph(data,
+                         src_lat='src_lat',
+                         src_lon='src_lon',
+                         dest_lat='dest_lat',
+                         dest_lon='dest_lon',
+                         color='hot_r',
+                         alpha=100,
+                         linewidth=20)
 
         geoplotlib.show()
 
