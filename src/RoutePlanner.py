@@ -176,12 +176,14 @@ class RoutePlanner:
 
         list_graphs = []  # List of Graphs representing the paths
         for distance_node_list in list_paths:
+            # TODO are we using the total distance of the paths anywhere??
             graph = Graph()
-            for i in range(len(distance_node_list[1])):
-                node_index = distance_node_list[1][i]
+            path = distance_node_list[1]
+            for i in range(len(path)):
+                node_index = path[i]
                 graph.add_node(self.my_graph.get_node(node_index))
                 if i != 0:
-                    prev_node_index = distance_node_list[1][i - 1]
+                    prev_node_index = path[i - 1]
                     distance = self.my_graph.get_distance(prev_node_index, node_index)
                     if distance != 0:
                         graph.add_edge(prev_node_index, node_index, distance)
