@@ -59,10 +59,10 @@ class TestRoutePlanner(TestCase):
         self.node0_new = Node(0, 42.35093, -71.06304, ["x0", "y0"])
         self.node1_new = Node(1, 42.35063, -71.06154, ["x1"])
         self.node2_new = Node(2, 42.35016,  -71.05974, [])
-        self.node3_new = Node(3, 42.3524, 71.06455, ["x3", "y3", "z3"])
+        self.node3_new = Node(3, 42.3524, -71.06455, ["x3", "y3", "z3"])
         self.node4_new = Node(4, 42.35238, -71.06261, [])
 
-        self.nodes_new = [self.node0, self.node1, self.node2, self.node3, self.node4]
+        self.nodes_new = [self.node0_new, self.node1_new, self.node2_new, self.node3_new, self.node4_new]
 
         # Create Graph
         self.simpleGraph_new = Graph()
@@ -81,6 +81,9 @@ class TestRoutePlanner(TestCase):
 
         # Create RoutePlanner
         self.planner_new = RoutePlanner(self.simpleGraph_new)
+
+    def test_plan_dfs(self):
+        self.assertEqual([[15, [0, 1, 2, 0]], [15, [0, 2, 1, 0]]], self.planner_new.plan_dfs(0, 15))
 
     def test_plan_dfs_list_paths(self):
         self.assertEqual([[15, [0, 3, 4, 0]], [15, [0, 4, 3, 0]]], self.planner_new.plan_dfs_list_paths(0, 15))

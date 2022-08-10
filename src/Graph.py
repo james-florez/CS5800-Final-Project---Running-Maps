@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 from src.Node import Node
 
 
@@ -14,9 +16,10 @@ class Graph:
         """Initializes a Node object."""
 
         # TODO possibly make the adjacencyList use dictionaries
-        self.adjacency_list = []
+        self.adjacency_list = {}
+
         self.points_of_interest = set()
-        self.nodes = []
+        self.nodes = {}
 
     def add_node(self, node: Node) -> bool:
         """Adds a Node to the Graph representing a street intersection.
@@ -28,12 +31,12 @@ class Graph:
         """
 
         # Validate parameters
-        if node.get_index() < len(self.adjacency_list):
+        if self.nodes.__contains__(node.get_index()):
             return False  # Node already exists
 
         # Add node
-        self.nodes.append(node)
-        self.adjacency_list.append([])
+        self.nodes[node.get_index()] = node
+        self.adjacency_list[node.get_index()] = defaultdict(int)
 
         # Add points of interest
         for point_of_interest in node.get_points_of_interest():
@@ -53,18 +56,14 @@ class Graph:
         """
 
         # Validate parameters
-        if start_index >= len(self.adjacency_list) or end_index >= len(self.adjacency_list):
+        if start_index not in self.adjacency_list or end_index not in self.adjacency_list:
             return False  # Node does not exist
 
         # Add (end_index, distance) to the start node adjacency list
-        list_node1 = self.adjacency_list[start_index]
-        edge_tuple1 = (end_index, distance)
-        list_node1.append(edge_tuple1)
+        self.adjacency_list[start_index][end_index] = distance
 
         # Add (start_index, distance) to the end node adjacency list
-        list_node2 = self.adjacency_list[end_index]
-        edge_tuple2 = (start_index, distance)
-        list_node2.append(edge_tuple2)
+        self.adjacency_list[end_index][start_index] = distance
 
         return True
 
@@ -90,7 +89,7 @@ class Graph:
         Returns:
             Node or None: The Node if the node index is valid or None if it is invalid
         """
-        if node_index >= len(self.nodes):
+        if not self.nodes.__contains__(node_index):
             return None
         else:
             return self.nodes[node_index]
@@ -101,8 +100,4 @@ class Graph:
         Returns:
             int: the distance in feet between the Nodes or 0 if the Nodes are not connected
         """
-        edges = self.adjacency_list[start_node_index]
-        for edge in self.adjacency_list[start_node_index]:
-            if edge[0] == end_node_index:
-                return edge[1]
-        return 0
+        return self.adjacency_list[start_node_index][end_node_index]
