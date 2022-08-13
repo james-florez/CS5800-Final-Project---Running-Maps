@@ -320,10 +320,9 @@ class BostonGraph:
         self.bostonGraph.add_edge(68, 69, 2112)
         self.bostonGraph.add_edge(69, 70, 2112)
         self.bostonGraph.add_edge(70, 71, 528)
-        self.bostonGraph.add_edge(71, 72, 1056)  # TODO add this edge to the official map. The length is way off
+        self.bostonGraph.add_edge(71, 72, 865)
         self.bostonGraph.add_edge(68, 70, 1880)
         self.bostonGraph.add_edge(69, 73, 435)
-        # self.bostonGraph.add_edge(72, 73, 3168)  # TODO @Subhankar why was this added??
         self.bostonGraph.add_edge(73, 74, 2112)
         self.bostonGraph.add_edge(74, 75, 420)
         self.bostonGraph.add_edge(75, 76, 644)
