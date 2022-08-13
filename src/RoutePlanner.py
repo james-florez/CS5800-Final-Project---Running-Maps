@@ -103,8 +103,6 @@ class RoutePlanner:
         """
 
         visited[node_index] = True
-        print(node_index)
-
         path.append(node_index)
 
         if start_index == node_index and self.check_distance_tolerance(current_distance, total_distance):
@@ -211,8 +209,7 @@ class RoutePlanner:
                          src_lon='src_lon',
                          dest_lat='dest_lat',
                          dest_lon='dest_lon',
-                         color='hot_r',
-                         alpha=100,
+                         color='binary',
                          linewidth=20)
 
         geoplotlib.show()
