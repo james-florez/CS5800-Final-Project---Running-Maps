@@ -124,7 +124,7 @@ class RoutePlanner:
         return
 
     # TODO Reverse the node list and check if the two lists are equivalent to each other or not
-    def isSamePath(self) -> bool:
+    def is_same_path(self) -> bool:
         return False
 
     def plan_bfs(self, start_index: int, total_distance: int) -> [[int, [int]]]:
@@ -148,7 +148,6 @@ class RoutePlanner:
             current_node_index = current_node_path[-1]  # Current node is the last one in the list
 
             # If a loop of acceptable distance is formed add it to list_paths
-            # TODO update with distance tolerance function
             if current_node_index == start_index and self.check_distance_tolerance(current_distance, total_distance):
                 list_paths.append(current_path.copy())
 
@@ -157,7 +156,6 @@ class RoutePlanner:
                 new_distance = current_distance + edge_distance
                 new_node_path = current_node_path.copy()
                 new_node_path.append(new_node_index)
-                # TODO update with distance tolerance function
                 if (new_distance < total_distance and new_node_index not in current_node_path) or (
                         self.check_distance_tolerance(new_distance, total_distance) and new_node_index == start_index):
                     q.append([new_distance, new_node_path])
