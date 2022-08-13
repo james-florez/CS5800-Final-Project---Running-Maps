@@ -69,7 +69,7 @@ class BostonGraph:
         self.node46 = Node(46, 42.35014, -71.06991, ["Statler Park"])
         self.node47 = Node(47, 42.35617, -71.06938, ["Boston Public Garden", "Boston Common", "Make Way for Ducklings"])
         self.node48 = Node(48, 42.35257, -71.0675, ["Boston Public Garden", "Boston Common", "Wendell Phillips Statue",
-                                      "Central Burying Ground", "Edgar Allan Poe Statue"])
+                                                    "Central Burying Ground", "Edgar Allan Poe Statue"])
         self.node49 = Node(49, 42.35094, -71.06687, [])
         self.node50 = Node(50, 42.34878, -71.06662, ["Eliot Norton Park", "Bay Village Neighborhood Park"])
         self.node51 = Node(51, 42.34749, -71.06861, ["Chandler/ Tremont Plaza"])
@@ -320,19 +320,25 @@ class BostonGraph:
         self.bostonGraph.add_edge(68, 69, 2112)
         self.bostonGraph.add_edge(69, 70, 2112)
         self.bostonGraph.add_edge(70, 71, 528)
+        self.bostonGraph.add_edge(70, 80, 2880)
         self.bostonGraph.add_edge(71, 72, 865)
         self.bostonGraph.add_edge(68, 70, 1880)
         self.bostonGraph.add_edge(69, 73, 435)
-        self.bostonGraph.add_edge(73, 74, 2112)
+        self.bostonGraph.add_edge(73, 76, 1085)
+        self.bostonGraph.add_edge(73, 77, 2795)
         self.bostonGraph.add_edge(74, 75, 420)
+        self.bostonGraph.add_edge(74, 82, 1560)
         self.bostonGraph.add_edge(75, 76, 644)
+        self.bostonGraph.add_edge(75, 78, 2210)
         self.bostonGraph.add_edge(76, 77, 2112)
         self.bostonGraph.add_edge(77, 78, 472)
         self.bostonGraph.add_edge(78, 79, 1584)
         self.bostonGraph.add_edge(79, 80, 1584)
+        self.bostonGraph.add_edge(79, 74, 1110)
         self.bostonGraph.add_edge(80, 81, 1056)
         self.bostonGraph.add_edge(81, 82, 285)
-        self.bostonGraph.add_edge(82, 83, 2640)
+        self.bostonGraph.add_edge(80, 83, 1505)
+        self.bostonGraph.add_edge(81, 84, 1930)
         self.bostonGraph.add_edge(83, 84, 3168)
         self.bostonGraph.add_edge(51, 56, 774)
         self.bostonGraph.add_edge(56, 53, 990)
@@ -348,8 +354,7 @@ class BostonGraph:
         self.bostonGraph.add_edge(61, 65, 540)
         self.bostonGraph.add_edge(62, 66, 705)
         self.bostonGraph.add_edge(63, 67, 930)
-
-
+        self.bostonGraph.add_edge(71, 82, 1200)
 
     def get_boston_map(self) -> Graph:
         """Get the constructed graph of Boston."""
