@@ -81,33 +81,44 @@ class BostonGraph:
         self.node57 = Node(57, 42.34661, -71.06459, [])
         self.node58 = Node(58, 42.34634, -71.06324, ["Ink Block"])
         self.node59 = Node(59, 42.34861, -71.06555, ["Eliot Norton Park"])
-        self.node60 = Node(60, 42.3511, -71.06491, ["The Wilbur", "Wang Theatre", "Shubert Theatre", "Tufts Medical Center"])
+        self.node60 = Node(60, 42.3511, -71.06491,
+                           ["The Wilbur", "Wang Theatre", "Shubert Theatre", "Tufts Medical Center"])
         self.node61 = Node(61, 42.35093, -71.06304, ["Tufts Medical Center"])
         self.node62 = Node(62, 42.35063, -71.06154, ["Tufts Medical Center"])
         self.node63 = Node(63, 42.35016, -71.05974, ["China Town Gate", "One Greenway Park", "Mary Soo Hoo Park"])
-        self.node64 = Node(64, 42.3524, -71.06455, ["Boston Common", "Emerson Colonial Theatre", "Central Burying Ground"])
+        self.node64 = Node(64, 42.3524, -71.06455,
+                           ["Boston Common", "Emerson Colonial Theatre", "Central Burying Ground"])
         self.node65 = Node(65, 42.35238, -71.06261, ["China Trade Center"])
         self.node66 = Node(66, 42.3525, -71.06141, ["Phillips Square"])
-        self.node67 = Node(67, 42.35235, -71.05813, ["Lincoln Street Green", "Chinatown Park", "Rose Fitzgerald Kennedy Greenway"])
+        self.node67 = Node(67, 42.35235, -71.05813,
+                           ["Lincoln Street Green", "Chinatown Park", "Rose Fitzgerald Kennedy Greenway"])
         self.node68 = Node(68, 42.35411, -71.05413, ["Rose Fitzgerald Kennedy Greenway"])
-        self.node69 = Node(69, 42.3595, -71.05243, ["Boston Harbor Islands Pavilion", "Rose Fitzgerald Kennedy Greenway", "New England Aquarium", "Christopher Columbus Waterfront Park", "Long Wharf"])
+        self.node69 = Node(69, 42.3595, -71.05243,
+                           ["Boston Harbor Islands Pavilion", "Rose Fitzgerald Kennedy Greenway",
+                            "New England Aquarium", "Christopher Columbus Waterfront Park", "Long Wharf"])
         self.node70 = Node(70, 42.35888, -71.05682, ["Old State House", "Boston Massacre Site"])
-        self.node71 = Node(71, 42.35931, -71.05963, ["Shawmut Peninsula", "Kings Chapel Burying Ground", "City Hall Plaza"])
-        self.node72 = Node(72, 42.35829, -71.06156, ["Boston Athenaeum", "Massachusetts State House", "Robert Gould Shaw and the 54th Regiment Memorial"])
+        self.node71 = Node(71, 42.35931, -71.05963,
+                           ["Shawmut Peninsula", "Kings Chapel Burying Ground", "City Hall Plaza"])
+        self.node72 = Node(72, 42.35829, -71.06156, ["Boston Athenaeum", "Massachusetts State House",
+                                                     "Robert Gould Shaw and the 54th Regiment Memorial"])
         self.node73 = Node(73, 42.36054, -71.05316,
-                           ["Armenian Heritage Park", "The Greenway Carousel", "Boston Harbor Islands Pavilion", "Rose Fitzgerald Kennedy Greenway", "Christopher Columbus Waterfront Park", "Long Wharf"])
+                           ["Armenian Heritage Park", "The Greenway Carousel", "Boston Harbor Islands Pavilion",
+                            "Rose Fitzgerald Kennedy Greenway", "Christopher Columbus Waterfront Park", "Long Wharf"])
         self.node74 = Node(74, 42.36369, -71.05846, ["Endicott Triangle", "Rose Fitzgerald Kennedy Greenway"])
         self.node75 = Node(75, 42.36278, -71.05747, ["Rose Fitzgerald Kennedy Greenway"])
-        self.node76 = Node(76, 42.36218, -71.0565, ["Carolyn Lynch Gardens", "Rose Fitzgerald Kennedy Greenway", "North Street Park"])
+        self.node76 = Node(76, 42.36218, -71.0565,
+                           ["Carolyn Lynch Gardens", "Rose Fitzgerald Kennedy Greenway", "North Street Park"])
         self.node77 = Node(77, 42.36715, -71.05253, [])
         self.node78 = Node(78, 42.3677, -71.05405,
-                           ["Mirabella sprinklers", "Great Molasses Flood Plaque", "The Secret Boston Treasure Site", "Langone Park"])
+                           ["Mirabella sprinklers", "Great Molasses Flood Plaque", "The Secret Boston Treasure Site",
+                            "Langone Park"])
         self.node79 = Node(79, 42.3669, -71.05856, ["Prince Street Park"])
         self.node80 = Node(80, 42.36409, -71.06343, ["The West End Museum", "TD Garden"])
         self.node81 = Node(81, 42.36128, -71.06384, ["Old West Church", "Otis House Museum"])
         self.node82 = Node(82, 42.3612, -71.06291, ["Cardinal Cushing Memorial Park", "City Hall Plaza"])
         self.node83 = Node(83, 42.36644, -71.06768, ["The Boston Synagogue", "Nashua Street Park", "Museum of Science"])
-        self.node84 = Node(84, 42.36076, -71.07088, ["Hamilton Coolidge Square", "Longfellow Bridge", "Charles River Esplanade"])
+        self.node84 = Node(84, 42.36076, -71.07088,
+                           ["Hamilton Coolidge Square", "Longfellow Bridge", "Charles River Esplanade"])
 
         # Add Edges between the nodes:
         self.bostonGraph.add_edge(0, 1, 490)
