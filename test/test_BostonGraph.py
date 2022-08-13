@@ -12,6 +12,8 @@ class TestBostonGraph(TestCase):
         self.assertTrue(self.boston.get_boston_map())  # Returning the graph counts as True
 
     def test_boston_map_route_planner(self):
-        self.planner.go(10, 5, 1)
+        self.planner.go(39, 0.5, 1)  # This test works
 
+    def test_plot_all_boston(self):
+        self.planner.plot_graph(self.boston.get_boston_map())
 
