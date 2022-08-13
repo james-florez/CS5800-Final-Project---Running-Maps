@@ -21,8 +21,8 @@ class TestBostonGraph(TestCase):
         # self.planner.go(39, 2.5, 1)  # This test works
         # self.planner.go(39, 3, 1)  # TODO this isn't showing part of the route on Tremont
         # self.planner.go(39, 3.5, 1)  # This test works (Takes 3 minutes on James' Macbook)
-        # self.planner.go(39, 4, 1)  # Untested
-        # self.planner.go(39, 4.5, 1)  # Untested
+        # self.planner.go(39, 4, 1)  # TODO Untested (I gave up after running it for 20 minutes)
+        # self.planner.go(39, 4.5, 1)  # TODO Untested
 
     def test_boston_map_route_planner_bfs(self):
         # Note that only 1 of these tests can be uncommented at a time
