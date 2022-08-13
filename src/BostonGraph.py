@@ -214,7 +214,7 @@ class BostonGraph:
 
         # Add Edges between the nodes:
         self.bostonGraph.add_edge(0, 1, 490)
-        self.bostonGraph.add_edge(0, 13, 3440)  # TODO this is not showing on the map
+        self.bostonGraph.add_edge(0, 13, 3440)
         self.bostonGraph.add_edge(1, 3, 2255)
         self.bostonGraph.add_edge(1, 8, 3725)
         self.bostonGraph.add_edge(2, 6, 2655)
