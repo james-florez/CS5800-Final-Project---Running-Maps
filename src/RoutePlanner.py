@@ -1,12 +1,8 @@
 from collections import deque
-from typing import Optional
+
+import geoplotlib
 
 from src.Graph import Graph
-import numpy
-import pyglet
-import geoplotlib
-from geoplotlib.utils import read_csv
-import matplotlib
 
 
 class RoutePlanner:
@@ -107,7 +103,8 @@ class RoutePlanner:
 
         if start_index == node_index and self.check_distance_tolerance(current_distance, total_distance):
             # TODO is current_distance needed in this tuple? What do we use it for?
-            list_paths.append([current_distance, path.copy()])
+            if not self.is_same_path(list_paths, [current_distance, path]):
+                list_paths.append([current_distance, path.copy()])
             del path[-1]  # Backtracking
             return
 
@@ -122,7 +119,19 @@ class RoutePlanner:
         return
 
     # TODO Reverse the node list and check if the two lists are equivalent to each other or not
-    def is_same_path(self) -> bool:
+    def is_same_path(self, list_of_paths: [[int, [int]]], current_path: [int, [int]]) -> bool:
+
+        if len(list_of_paths) == 0:
+            return False
+
+        reversed_current_path = current_path.copy()
+        reversed_current_path[1].reverse()
+        for path in list_of_paths:
+            if path[0] == current_path[0] and len(path[1]) == len(current_path[1]):
+                for index, value in enumerate(path[1]):
+                    if not path[1][index] == current_path[1][index]:
+                        return False
+                return True
         return False
 
     def plan_bfs(self, start_index: int, total_distance: int) -> [[int, [int]]]:
@@ -147,7 +156,8 @@ class RoutePlanner:
 
             # If a loop of acceptable distance is formed add it to list_paths
             if current_node_index == start_index and self.check_distance_tolerance(current_distance, total_distance):
-                list_paths.append(current_path.copy())
+                if not self.is_same_path(list_paths, current_path):
+                    list_paths.append(current_path.copy())
 
             # Add children paths to the queue
             for new_node_index, edge_distance in self.my_graph.adjacency_list[current_node_index].items():
@@ -186,7 +196,6 @@ class RoutePlanner:
             list_graphs.append(graph)
         return list_graphs
 
-    # TODO : Plot the graph using geoplotlib.
     def plot_graph(self, graph: Graph) -> {}:
         dict = {'src_lat': [],
                 'src_lon': [],
