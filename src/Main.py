@@ -6,6 +6,7 @@ from Graph import Graph
 from RoutePlanner import RoutePlanner
 from BostonGraph import BostonGraph
 
+
 def main():
     # Load a Graph of Boston
 
