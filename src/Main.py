@@ -2,15 +2,12 @@
 # Running Maps
 # by James Florez, Subhankar Shah, and Aashi Shrimal
 
-from Graph import Graph
 from RoutePlanner import RoutePlanner
 from BostonGraph import BostonGraph
 
 
 def main():
-    # Load a Graph of Boston
-
-    # Create a RoutePlanner object
+    # Create a RoutePlanner object with a graph of Boston
     boston_graph = BostonGraph()
     planner = RoutePlanner(boston_graph.get_boston_map())
 
