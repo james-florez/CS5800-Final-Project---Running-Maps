@@ -83,7 +83,6 @@ class TestRoutePlanner(TestCase):
         self.planner_new = RoutePlanner(self.simpleGraph_new)
 
     def test_go(self):
-        # TODO test go. What should it return?
         self.planner_new.go(0, 15 / 5280, 1)
 
     def test_plan_dfs(self):
@@ -92,14 +91,12 @@ class TestRoutePlanner(TestCase):
         self.assertEqual([[25, [0, 1, 2, 3, 4, 0]]],
                          self.planner_new.plan_dfs(0, 25))
         self.assertEqual([[2191, [0, 1, 2, 3, 0]]], self.planner.plan_dfs(0, 2191))
-        # TODO add more complex tests including ones that verify that check_distance_tolerance() is working
 
     def test_plan_bfs(self):
         self.assertEqual([[15, [0, 3, 4, 0]]], self.planner_new.plan_bfs(0, 15))
         # self.assertEqual([[15, [1, 0, 2, 1]], [15, [1, 2, 0, 1]]], self.planner_new.plan_bfs(1, 15))
         self.assertEqual([[25, [0, 1, 2, 3, 4, 0]]], self.planner_new.plan_bfs(0, 25))
         self.assertEqual([[2191, [0, 1, 2, 3, 0]]], self.planner.plan_bfs(0, 2191))
-        # TODO add more complex tests including ones that verify that check_distance_tolerance() is working
 
     def test_check_distance_tolerance(self):
         self.assertTrue(self.planner.check_distance_tolerance(10000, 10000))  # Identical
