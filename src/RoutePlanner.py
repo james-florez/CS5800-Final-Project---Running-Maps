@@ -53,14 +53,13 @@ class RoutePlanner:
         list_graphs = self.convert_paths_to_graphs(list_paths)
 
         # Sort the Graphs by number of points of interest
-        # TODO this sorting might not be correct
         list_graphs.sort(key=lambda x: x.get_num_points_of_interest())
 
         # Plot the best graph
         self.plot_graph(list_graphs[-1])
 
-        # TODO how to iterate through plotting graphs?
-        # TODO Take command line input to go to the next graph?
+        # Print out the points of interest for the best graph
+        print(list_graphs[-1].get_points_of_interest())
 
     def plan_dfs(self, start_index: int, total_distance: int) -> [[int, [int]]]:
         """Plans routes of a given distance using DFS.
@@ -102,9 +101,8 @@ class RoutePlanner:
         path.append(node_index)
 
         if start_index == node_index and self.check_distance_tolerance(current_distance, total_distance):
-            # TODO is current_distance needed in this tuple? What do we use it for?
-            if not self.is_same_path(list_paths, [current_distance, path]):
-                list_paths.append([current_distance, path.copy()])
+            # if not self.is_same_path(list_paths, [current_distance, path]):
+            list_paths.append([current_distance, path.copy()])
             del path[-1]  # Backtracking
             return
 
@@ -118,8 +116,15 @@ class RoutePlanner:
         visited[node_index] = False  # Backtracking
         return
 
-    # TODO Reverse the node list and check if the two lists are equivalent to each other or not
     def is_same_path(self, list_of_paths: [[int, [int]]], current_path: [int, [int]]) -> bool:
+        """Checks if a given path is already in the list of paths and returns a bool.
+
+        Args:
+            list_of_paths ([[int, [int]]]): The paths that have already been created
+            current_path ([int, [int]]): The new path that is being compared
+        Returns:
+            bool: True if the current_path already exists in list_of_paths and False if it does not
+        """
 
         if len(list_of_paths) == 0:
             return False
@@ -156,8 +161,8 @@ class RoutePlanner:
 
             # If a loop of acceptable distance is formed add it to list_paths
             if current_node_index == start_index and self.check_distance_tolerance(current_distance, total_distance):
-                if not self.is_same_path(list_paths, current_path):
-                    list_paths.append(current_path.copy())
+                # if not self.is_same_path(list_paths, current_path):
+                list_paths.append(current_path.copy())
 
             # Add children paths to the queue
             for new_node_index, edge_distance in self.my_graph.adjacency_list[current_node_index].items():
@@ -181,7 +186,6 @@ class RoutePlanner:
 
         list_graphs = []  # List of Graphs representing the paths
         for distance_node_list in list_paths:
-            # TODO are we using the total distance of the paths anywhere??
             graph = Graph()
             path = distance_node_list[1]
             for i in range(len(path)):
@@ -192,18 +196,21 @@ class RoutePlanner:
                     distance = self.my_graph.get_distance(prev_node_index, node_index)
                     if distance != 0:
                         graph.add_edge(prev_node_index, node_index, distance)
-            # TODO check if this graph is equivalent to one that was already created
             list_graphs.append(graph)
         return list_graphs
 
-    def plot_graph(self, graph: Graph) -> {}:
+    def plot_graph(self, graph: Graph):
+        """Plots a Graph using geoplotlib.
+
+        Args:
+            graph (Graph): The Graph to be plotted
+        """
         dict = {'src_lat': [],
                 'src_lon': [],
                 'dest_lat': [],
                 'dest_lon': [],
                 }
 
-        # TODO: There are repeats while adding the values in the dictionary, we need to figure that out.
         for node in graph.nodes.values():
             node_index = node.get_index()
             for end_node_index in graph.adjacency_list[node.get_index()].keys():
@@ -222,8 +229,6 @@ class RoutePlanner:
                          linewidth=20)
 
         geoplotlib.show()
-
-        return dict
 
     def check_distance_tolerance(self, current_distance: int, total_distance: int) -> bool:
         """Checks if the current distance is within an acceptable tolerance of the total distance.
