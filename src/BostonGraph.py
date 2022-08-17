@@ -12,7 +12,7 @@ class BostonGraph:
         self.node0 = Node(0,
                           42.33774,
                           -71.09575,
-                          ["Khoury College of Computer Science", "Northeastern University", "Museum of FineArt"])
+                          ["Khoury College of Computer Science", "Northeastern University", "Museum of Fine Art"])
         self.node1 = Node(1,
                           42.33844, -71.09731, ["Isabella Stewart  Gardner Museum", "Clemente Field", "Evans Way Park"])
         self.node2 = Node(2, 42.34074, -71.0998,
